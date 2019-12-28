@@ -92,4 +92,18 @@ void capacitiveMoistureSensor(struct DHTsensor *ms) {
 
 }
 
+
 void dhtsensor(struct DHTsensor *ms) {
+  
+  ms->humidity = dht.readHumidity();
+  // Read temperature as Celsius (the default)
+  ms->temperature = dht.readTemperature();
+  // Read temperature as Fahrenheit (isFahrenheit = true)
+  //ms->f = dht.readTemperature(true);
+
+  // Check if any reads failed and exit early (to try again).
+  if (isnan(ms->humidity) || isnan(ms->temperature)) {
+    return;
+  }
+
+}
