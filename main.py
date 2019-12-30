@@ -42,6 +42,7 @@ def main(scope, sheet):
            if(data):
                # Split the data
                data = data.decode().split('#')
+               data = [float(x) for x in data]
                # Take the current time
                curr_time = str(datetime.datetime.now().time())
                # Insert in the first element of the list the time
