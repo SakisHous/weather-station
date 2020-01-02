@@ -4,6 +4,7 @@ import datetime
 import serial
 import RPi.GPIO as GPIO
 import logging
+from pymongo_handler import MongoHandler
 
 # initialize the log settings
 logging.basciConfig(filename='app.log', format='%(process)d - %(levelname)s: %(asctime)s - %(message)s', level=logging.INFO)
@@ -20,6 +21,9 @@ ser = serial.Serial(
     bytesize=serial.EIGHTBITS,
     timeout=1
     )
+
+# initialize MongoHandler object
+iot = MongoHandler('<YOUR-PASSWORD>')
 
 # Configure for Google Sheets
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.co$
@@ -42,7 +46,14 @@ def main(scope, sheet):
            if(data):
                # Split the data
                data = data.decode().split('#')
-               data = [float(x) for x in data]
+               data_format_db ={
+                                "time": datetime.datetime.now(),
+                                "H": float(data[0]),
+                                "T": float(data[1]),
+                                "M": float(data[2])
+                                }
+               iot.insert('YOUR_DEVICE_NAME', data_format_db)
+               iot.disconnect()
                # Take the current time
                curr_time = str(datetime.datetime.now().time())
                # Insert in the first element of the list the time
