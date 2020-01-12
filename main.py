@@ -7,7 +7,7 @@ import logging
 from pymongo_handler import MongoHandler
 
 # initialize the log settings
-logging.basciConfig(filename='app.log', format='%(process)d - %(levelname)s: %(asctime)s - %(message)s', level=logging.INFO)
+logging.basicConfig(filename='app.log', format='%(process)d - %(levelname)s: %(asctime)s - %(message)s', level=logging.INFO)
 
 # Configure the communication with HC-12 board using USART protocol
 GPIO.setmode(GPIO.BOARD)
